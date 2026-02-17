@@ -1,0 +1,6 @@
+- [x] Navigate to project directory: cd image-to-word-extraction/image-to-word-extraction
+- [x] Install dependencies: pip install -r requirements.txt
+- [x] Create necessary directories: mkdir sample_images, mkdir output
+- [x] Install Tesseract OCR
+- [x] Fix path in main.py to use raw string
+- [x] Run the script: python main.py
