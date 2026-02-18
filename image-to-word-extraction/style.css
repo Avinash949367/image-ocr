@@ -114,6 +114,44 @@ header p {
     margin-top: 1rem;
 }
 
+.language-selector {
+    margin-bottom: 2rem;
+    background: var(--card-background);
+    padding: 1.25rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.language-selector label {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-right: 1rem;
+    display: inline-block;
+}
+
+.language-selector select {
+    padding: 0.625rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: white;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.language-selector select:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.language-selector select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
 .result-section {
     display: grid;
     grid-template-columns: 1fr 1fr;

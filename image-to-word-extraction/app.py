@@ -21,11 +21,12 @@ except Exception as e:
 ocr_reader = None
 if OCR_AVAILABLE:
     try:
-        print("[INIT] Loading OCR model (this may take a minute on first run)...")
-        ocr_reader = easyocr.Reader(['en'])
-        print("[OK] OCR model loaded successfully")
+        print("[INIT] Loading OCR models for English and Telugu (this may take a few minutes on first run)...")
+        # Load both English and Telugu language models
+        ocr_reader = easyocr.Reader(['en', 'te'], gpu=False)
+        print("[OK] OCR models loaded successfully (English + Telugu)")
     except Exception as e:
-        print(f"[ERROR] Failed to load OCR model: {e}")
+        print(f"[ERROR] Failed to load OCR models: {e}")
         ocr_reader = None
         OCR_AVAILABLE = False
 
@@ -66,7 +67,7 @@ def allowed_file(filename):
     """Check if file extension is allowed"""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def extract_text_from_image(image_path):
+def extract_text_from_image(image_path, language='en'):
     """Extract text from image using EasyOCR"""
     try:
         # Validate file exists and is readable
@@ -89,14 +90,16 @@ def extract_text_from_image(image_path):
         
         # Try to extract text using EasyOCR
         try:
-            print(f"[OCR] Extracting text from {image_path}...")
+            print(f"[OCR] Extracting text from {image_path} (language: {language})...")
+            # EasyOCR reader is already initialized with both 'en' and 'te'
+            # It will detect and extract text from both languages
             results = ocr_reader.readtext(image_path)
             
             # Combine all detected text
             extracted_text = '\n'.join([text[1] for text in results])
             
             if extracted_text.strip():
-                print(f"[OCR] Successfully extracted {len(extracted_text)} characters")
+                print(f"[OCR] Successfully extracted {len(extracted_text)} characters in {language}")
                 return extracted_text.strip()
             else:
                 return "[No text detected in image]"
@@ -157,6 +160,11 @@ def extract_text_api():
                 'message': 'Invalid file type. Allowed: jpg, png, webp, bmp'
             }), 400
         
+        # Get language preference from request (default to 'en')
+        language = request.form.get('language', 'en').lower()
+        if language not in ['en', 'te', 'both']:
+            language = 'en'
+        
         # Save uploaded file
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -173,12 +181,13 @@ def extract_text_api():
         
         # Extract text from image
         try:
-            text = extract_text_from_image(filepath)
-            print(f"[OK] Text extracted successfully ({len(text)} chars)")
+            text = extract_text_from_image(filepath, language)
+            print(f"[OK] Text extracted successfully ({len(text)} chars) in {language}")
             
             return jsonify({
                 'success': True,
                 'text': text,
+                'language': language,
                 'message': 'Text extracted successfully'
             }), 200
             

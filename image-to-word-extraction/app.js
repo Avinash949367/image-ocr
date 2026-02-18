@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
         clearBtn: document.getElementById('clearBtn'),
         copyBtn: document.getElementById('copyBtn'),
         downloadBtn: document.getElementById('downloadBtn'),
-        loadingIndicator: document.getElementById('loadingIndicator')
+        loadingIndicator: document.getElementById('loadingIndicator'),
+        languageSelect: document.getElementById('languageSelect')
     };
 
     // Verify all required elements exist
@@ -195,6 +196,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Create FormData
             const formData = new FormData();
             formData.append('image', file);
+            
+            // Get selected language
+            const selectedLanguage = elements.languageSelect ? elements.languageSelect.value : 'en';
+            formData.append('language', selectedLanguage);
+            console.log('[UPLOAD] Language selected:', selectedLanguage);
 
             console.log('[UPLOAD] FormData created, sending to:', CONFIG.API_URL);
 

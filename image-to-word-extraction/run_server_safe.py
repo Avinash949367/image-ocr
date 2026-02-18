@@ -14,7 +14,7 @@ if sys.platform == 'win32':
         sys.stderr.reconfigure(encoding='utf-8')
 
 # Change to the correct directory
-os.chdir(r'c:\Users\jahna\Desktop\CCBD\image-ocr\image-to-word-extraction')
+os.chdir(r'..\image-to-word-extraction')
 
 # Add to path
 sys.path.insert(0, os.getcwd())
