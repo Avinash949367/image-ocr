@@ -7,7 +7,7 @@ import os
 import sys
 
 # Change to the correct directory
-os.chdir(r'c:\Users\jahna\Desktop\CCBD\image-ocr\image-to-word-extraction')
+os.chdir(r'..\image-to-word-extraction')
 
 # Add to path
 sys.path.insert(0, os.getcwd())
